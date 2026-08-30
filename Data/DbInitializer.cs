@@ -35,7 +35,7 @@ namespace RelationsNaN.Data
                 {
                     Name = "XCom 2",
                     ReleaseYear = 2016,
-                    Image = "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/XCOM_2_cover_art.jpg/220px-XCOM_2_cover_art.jpg"
+                    Image = "https://upload.wikimedia.org/wikipedia/en/c/c3/XCOM_2_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled"
                 };
                 await _context.Game.AddAsync(game3);
 
