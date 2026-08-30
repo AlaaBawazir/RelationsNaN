@@ -57,13 +57,9 @@
                 <select asp-for="GenreId" class="form-control" asp-items="ViewBag.GenreId"></select>
                 <span asp-validation-for="GenreId" class="text-danger"></span>
             </div>
-            <v class="form-group">
-                <label asp-for="Platforms" class="control-label"></label>
-                <select name="test" class="form-control" asp-items="ViewBag.Platforms"></select>
-                AddPlatform
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 </div>
