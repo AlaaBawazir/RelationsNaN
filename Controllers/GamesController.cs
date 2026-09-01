@@ -22,7 +22,7 @@ namespace RelationsNaN.Controllers
         // GET: Games
         public async Task<IActionResult> Index()
         {
-            var relationsNaNContext = _context.Game.Include(g => g.Genre);
+            var relationsNaNContext = _context.Game.Include(g => g.Genre).Include(p => p.Platforms);
             return View(await relationsNaNContext.ToListAsync());
         }
 
@@ -77,11 +77,13 @@ namespace RelationsNaN.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Game.FindAsync(id);
+            //Modifier par moi
+            var game = _context.Game.Where(g => g.Id == id).Include(g => g.Platforms).Include(g => g.Genre);
             if (game == null)
             {
                 return NotFound();
             }
+            //Modifications a faire
             ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Name", game.GenreId);
             return View(game);
         }
@@ -159,6 +161,77 @@ namespace RelationsNaN.Controllers
         private bool GameExists(int id)
         {
             return _context.Game.Any(e => e.Id == id);
+        }
+
+        //Ajouter par moi
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPlatform(int id, int platformId)
+        {
+            Game? game = await _context.Game.FindAsync(id);
+            Platform? platform = await _context.Platform.FindAsync(platformId);
+
+            if (game == null || platform == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    game.Platforms.Add(platform);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (game.Platforms.Contains(platform))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            ViewData["Platforms"] = new SelectList(_context.Platform, "Id", "Name", platform.Id);
+            return View(game);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> deletePlatform(int id, int platformId)
+        {
+            Game? game = await _context.Game.FindAsync(id);
+            Platform? platform = await _context.Platform.FindAsync(platformId);
+
+            if (game == null || platform == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    game.Platforms.Remove(platform);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!game.Platforms.Contains(platform))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            ViewData["Platforms"] = new SelectList(_context.Platform, "Id", "Name", platform.Id);
+            return View(game);
         }
     }
 }

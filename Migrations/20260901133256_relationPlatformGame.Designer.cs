@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RelationsNaN.Data;
 
@@ -10,9 +11,11 @@ using RelationsNaN.Data;
 namespace RelationsNaN.Migrations
 {
     [DbContext(typeof(RelationsNaNContext))]
-    partial class RelationsNaNContextModelSnapshot : ModelSnapshot
+    [Migration("20260901133256_relationPlatformGame")]
+    partial class relationPlatformGame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace RelationsNaN.Migrations
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform", (string)null);
+                    b.ToTable("GamePlatform");
                 });
 
             modelBuilder.Entity("RelationsNaN.Models.Game", b =>
@@ -62,7 +65,7 @@ namespace RelationsNaN.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Game", (string)null);
+                    b.ToTable("Game");
                 });
 
             modelBuilder.Entity("RelationsNaN.Models.Genre", b =>
@@ -79,7 +82,7 @@ namespace RelationsNaN.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre", (string)null);
+                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("RelationsNaN.Models.Platform", b =>
@@ -96,7 +99,7 @@ namespace RelationsNaN.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Platform", (string)null);
+                    b.ToTable("Platform");
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
